@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "../styles/Pagination.module.scss";
+import styles from "./Pagination.module.scss";
 import ReactPaginate from "react-paginate";
 
-const Pagination = ({ onChange }) => {
+const Pagination = ({ onChange }: any) => {
   return (
     <ReactPaginate
       className={styles.root}

@@ -1,0 +1,32 @@
+.table {
+  height: 70vh;
+  border-bottom: 2px solid #282c34;
+  width: "100%";
+  border-spacing: 0;
+
+  .single {
+    background-color: white;
+
+    .buy {
+      margin: 0;
+      background-color: #282c34;
+      color: white;
+      width: 40%;
+      margin: auto;
+      height: 60%;
+      border-radius: 50%;
+    }
+    .buy:hover {
+      cursor: pointer;
+    }
+  }
+
+  .single:hover {
+    background-color: #282c34;
+    color: white;
+    .buy {
+      color: #282c34;
+      background-color: white;
+    }
+  }
+}

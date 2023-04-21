@@ -6,8 +6,16 @@
   align-items: center;
   color: white;
   .logo {
-    width: 20%;
+    width: 15%;
     font-size: calc(10px + 2vmin);
+  }
+  .back {
+    width: calc(20px + 2vh);
+    height: calc(20px + 2vh);
+    background-color: white;
+    border-radius: 50%;
+    margin-left: 1vh;
+    cursor: pointer;
   }
   .top {
     width: 60%;

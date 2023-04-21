@@ -1,17 +1,35 @@
 import React from "react";
-import styles from "../styles/Main.module.scss";
+import styles from "./Main.module.scss";
 import AppContext from "../context";
 import Pagination from "../components/Pagination";
+import { useNavigate } from "react-router-dom";
 
-const Main = ({ coins }) => {
-  const { setCurrentPage } = React.useContext(AppContext);
+type coinApis = {
+  id: string;
+  rank: string;
+  symbol: string;
+  name: string;
+  supply: string;
+  maxSupply: string;
+  marketCapUsd: string;
+  volumeUsd24Hr: string;
+  priceUsd: string;
+  changePercent24Ht: string;
+  vwap24Hr: string;
+};
 
-  function changePage(i) {
+const Main = () => {
+  const { setCurrentPage, coins }: any = React.useContext(AppContext);
+
+  const navigate = useNavigate();
+
+  function changePage(i: number) {
     setCurrentPage(i);
   }
+
   return (
     <div>
-      <table className={styles.table} style={{ width: "100%", borderSpacing: 0 }}>
+      <table className={styles.table}>
         <thead>
           <tr>
             <th
@@ -48,18 +66,23 @@ const Main = ({ coins }) => {
             </th>
             <th
               style={{
-                width: "20vw",
+                width: "15vw",
 
                 borderBottom: "2px solid black",
+                borderRight: "2px solid black",
               }}>
               Суточный оборот
             </th>
+            <th style={{ width: "5vw", borderBottom: "2px solid black" }}>Купить</th>
           </tr>
         </thead>
         <tbody>
-          {coins.map((item) => {
+          {coins.map((item: coinApis) => {
             return (
-              <tr key={item.rank}>
+              <tr
+                onClick={() => navigate(`/${item.symbol}`, { state: item })}
+                className={styles.single}
+                key={item.rank}>
                 <th style={{ fontSize: "calc(10px + 0.5vw)", borderRight: "2px solid black" }}>
                   {item.rank}
                 </th>
@@ -72,7 +95,15 @@ const Main = ({ coins }) => {
                 <th style={{ fontSize: "calc(10px + 0.5vw)", borderRight: "2px solid black" }}>
                   {item.priceUsd.slice(0, -10)}
                 </th>
-                <th style={{ fontSize: "calc(10px + 0.5vw)" }}>{Math.round(item.volumeUsd24Hr)}</th>
+                <th style={{ fontSize: "calc(10px + 0.5vw)", borderRight: "2px solid black" }}>
+                  {item.volumeUsd24Hr}
+                </th>
+                <th
+                  style={{
+                    fontSize: "calc(10px + 0.5vw)",
+                  }}>
+                  <p className={styles.buy}>+</p>
+                </th>
               </tr>
             );
           })}

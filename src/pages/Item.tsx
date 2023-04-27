@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./Item.module.scss";
 import { useLocation } from "react-router-dom";
+import { getGraphApi } from "../getApi";
+import Graph from "../components/Graph";
 
 const Item = () => {
   type coinApis = {
@@ -17,9 +19,17 @@ const Item = () => {
     vwap24Hr: string;
   };
 
-  const [loading, setLoading] = React.useState(true);
+  type graphApi = {
+    date: string;
+    priceUsd: string;
+    time: number;
+  };
+
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [graphData, setGraphData] = React.useState<any>([]);
   const location = useLocation();
   const {
+    id,
     rank,
     symbol,
     name,
@@ -33,8 +43,13 @@ const Item = () => {
 
   React.useEffect(() => {
     location.state && setLoading(false);
+    getGraphApi(id).then((res) =>
+      res.forEach((data: any) =>
+        setGraphData((prev: any) => [...prev, data.priceUsd.slice(0, -13)]),
+      ),
+    );
   }, [location.state]);
-
+  console.log(graphData);
   return (
     <div>
       {loading ? (
@@ -43,7 +58,9 @@ const Item = () => {
         <>
           <h2 className={styles.title}>{location.state.name}</h2>
           <div className={styles.box}>
-            <div className={styles.graph}></div>
+            <div className={styles.graph}>
+              <Graph info={graphData} />
+            </div>
             <div className={styles.information}>
               <p className={styles.paragraphs}>Позиция в топе: {rank}</p>
               <p className={styles.paragraphs}>Символ: {symbol}</p>

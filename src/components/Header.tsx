@@ -19,9 +19,29 @@ const Header = () => {
     changePercent24Hr: string;
     vwap24Hr: string;
   };
-  const { topCoins }: any = React.useContext(AppContext);
+
+  type walletCoins = {
+    id: string;
+    symbol: string;
+    name: string;
+    priceUsd: string;
+    count: string;
+  };
+
+  const { topCoins, myCoins }: any = React.useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const [walletCost, setWalletCost] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    setWalletCost(
+      myCoins.reduce(
+        (sum: number, curr: walletCoins) =>
+          sum + Number(curr.priceUsd) * Math.abs(Number(curr.count)),
+        0,
+      ),
+    );
+  }, [myCoins]);
   return (
     <div className={styles.header}>
       {location.pathname != "/" ? (
@@ -41,7 +61,9 @@ const Header = () => {
       </div>
       <div className={styles.portfolio}>
         <img src={Wallet} alt='wallet' className={styles.wallet} />
-        <p className={styles.money}>134,32 USD +2,38 (1,80 %)</p>
+        <p className={styles.money}>
+          {walletCost == 0 ? 0 : walletCost.toString().slice(0, -10)} USD +2,38 (1,80 %)
+        </p>
       </div>
     </div>
   );

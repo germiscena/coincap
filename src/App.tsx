@@ -21,10 +21,20 @@ function App() {
     changePercent24Hr: string;
     vwap24Hr: string;
   };
+
+  type myCoin = {
+    id: string;
+    symbol: string;
+    name: string;
+    priceUsd: string;
+    count: string;
+  };
+
   const [coins, setCoins] = React.useState<coinApis[]>();
   const [isLoading, setIsLoading] = React.useState(true);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [topCoins, setTopCoins] = React.useState<coinApis[]>();
+  const [myCoins, setMyCoins] = React.useState<myCoin[]>([]);
 
   React.useEffect(() => {
     getApi(currentPage).then((res) => {
@@ -34,13 +44,21 @@ function App() {
 
     getTopApi().then((res) => setTopCoins(res.data));
   }, [currentPage]);
-
+  console.log(myCoins);
   return isLoading ? (
     <div style={{ textAlign: "center", marginTop: "30vh", fontSize: "50px" }}>
       Подождите, идет загрузка!
     </div>
   ) : (
-    <AppContext.Provider value={{ coins, topCoins, currentPage, setCurrentPage }}>
+    <AppContext.Provider
+      value={{
+        coins,
+        topCoins,
+        currentPage,
+        setCurrentPage,
+        myCoins,
+        setMyCoins,
+      }}>
       <div className={styles.app}>
         <Header />
         <Routes>

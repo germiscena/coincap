@@ -12,3 +12,8 @@ export function getTopApi() {
   const data = axios.get(`${API_URL}?limit=3`).then((res) => res.data);
   return data;
 }
+
+export function getGraphApi(name: string) {
+  const data = axios.get(`${API_URL}/${name}/history?interval=d1`).then((res) => res.data.data);
+  return data;
+}

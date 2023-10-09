@@ -4,7 +4,6 @@ import AppContext from "../context";
 import Pagination from "../components/Pagination";
 import { useNavigate } from "react-router-dom";
 import BuyCoins from "../components/BuyCoins";
-
 type coinApis = {
   id: string;
   rank: string;
@@ -29,7 +28,6 @@ const Main = () => {
   const { setCurrentPage, coins }: any = React.useContext(AppContext);
   const [isModalBuy, setIsModalBuy] = React.useState(false);
   const [thisCoin, setThisCoin] = React.useState<myCoin>();
-
   const navigate = useNavigate();
 
   function changePage(i: number) {
@@ -74,7 +72,7 @@ const Main = () => {
                 borderRight: "2px solid black",
                 borderBottom: "2px solid black",
               }}>
-              Стоимость
+              Стоимость(USD)
             </th>
             <th
               style={{
@@ -83,39 +81,74 @@ const Main = () => {
                 borderBottom: "2px solid black",
                 borderRight: "2px solid black",
               }}>
-              Суточный оборот
+              Суточный оборот(USD)
             </th>
             <th style={{ width: "5vw", borderBottom: "2px solid black" }}>Купить</th>
           </tr>
         </thead>
         <tbody>
           {coins.map((item: coinApis) => {
+            const priceUsd: string =
+              Number(item.priceUsd) < 0.01
+                ? String(Number(item.priceUsd).toFixed(5))
+                : Number(item.priceUsd) < 1000
+                ? String(Number(item.priceUsd).toFixed(2))
+                : Number(item.priceUsd) > 999 && Number(item.priceUsd) < 1000000
+                ? `${(Number(item.priceUsd) / 1000).toFixed(2)}k`
+                : Number(item.priceUsd) > 999999 && Number(item.priceUsd) < 999999999
+                ? `${(Number(item.priceUsd) / 1000000).toFixed(2)}m`
+                : `${(Number(item.priceUsd) / 1000000000).toFixed(2)}b`;
+            const volumeUsd: string =
+              Number(item.volumeUsd24Hr) < 0.01
+                ? String(Number(item.volumeUsd24Hr).toFixed(5))
+                : Number(item.volumeUsd24Hr) < 1000
+                ? String(Number(item.volumeUsd24Hr).toFixed(2))
+                : Number(item.volumeUsd24Hr) > 999 && Number(item.volumeUsd24Hr) < 1000000
+                ? `${(Number(item.volumeUsd24Hr) / 1000).toFixed(2)}k`
+                : Number(item.volumeUsd24Hr) > 999999 && Number(item.volumeUsd24Hr) < 999999999
+                ? `${(Number(item.volumeUsd24Hr) / 1000000).toFixed(2)}m`
+                : `${(Number(item.volumeUsd24Hr) / 1000000000).toFixed(2)}b`;
             return (
               <tr className={styles.single} key={item.rank}>
                 <th
                   onClick={() => navigate(`/${item.symbol}`, { state: item })}
-                  style={{ fontSize: "calc(10px + 0.5vw)", borderRight: "2px solid black" }}>
+                  style={{
+                    fontSize: "calc(10px + 0.5vw)",
+                    borderRight: "2px solid black",
+                  }}>
                   {item.rank}
                 </th>
                 <th
                   onClick={() => navigate(`/${item.symbol}`, { state: item })}
-                  style={{ fontSize: "calc(10px + 0.5vw)", borderRight: "2px solid black" }}>
+                  style={{
+                    fontSize: "calc(10px + 0.5vw)",
+                    borderRight: "2px solid black",
+                  }}>
                   {item.symbol}
                 </th>
                 <th
                   onClick={() => navigate(`/${item.symbol}`, { state: item })}
-                  style={{ fontSize: "calc(10px + 0.5vw)", borderRight: "2px solid black" }}>
+                  style={{
+                    fontSize: "calc(10px + 0.5vw)",
+                    borderRight: "2px solid black",
+                  }}>
                   {item.name}
                 </th>
                 <th
                   onClick={() => navigate(`/${item.symbol}`, { state: item })}
-                  style={{ fontSize: "calc(10px + 0.5vw)", borderRight: "2px solid black" }}>
-                  {item.priceUsd.slice(0, -10)}
+                  style={{
+                    fontSize: "calc(10px + 0.5vw)",
+                    borderRight: "2px solid black",
+                  }}>
+                  {priceUsd}
                 </th>
                 <th
                   onClick={() => navigate(`/${item.symbol}`, { state: item })}
-                  style={{ fontSize: "calc(10px + 0.5vw)", borderRight: "2px solid black" }}>
-                  {item.volumeUsd24Hr.slice(0, -15)}
+                  style={{
+                    fontSize: "calc(10px + 0.5vw)",
+                    borderRight: "2px solid black",
+                  }}>
+                  {volumeUsd}
                 </th>
                 <th
                   style={{

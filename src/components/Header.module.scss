@@ -43,4 +43,19 @@
       font-size: calc(10px + 1vmin);
     }
   }
+  .inputBox {
+    display: flex;
+    flex-direction: row;
+  }
+  .input {
+    width: 10vw;
+  }
+  .input:focus-visible {
+    outline: 0;
+  }
+  .search {
+    width: 3vh;
+    height: 3vh;
+    margin-right: 10px;
+  }
 }

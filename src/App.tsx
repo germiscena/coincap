@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Main from "./pages/Main";
 import Item from "./pages/Item";
 import AppContext from "./context";
-import { getApi, getTopApi } from "./getApi";
+import { getApi } from "./getApi";
 
 function App() {
   type coinApis = {
@@ -30,22 +30,18 @@ function App() {
     count: string;
   };
 
-  const [coins, setCoins] = React.useState<coinApis[]>();
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [coins, setCoins] = React.useState<coinApis[]>([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [topCoins, setTopCoins] = React.useState<coinApis[]>();
   const [myCoins, setMyCoins] = React.useState<myCoin[]>([]);
-
+  const [search, setSearch] = React.useState<string>("");
   React.useEffect(() => {
-    getApi(currentPage).then((res) => {
-      setCoins(res);
-      setIsLoading(false);
+    getApi(currentPage, search).then((res) => {
+      setCoins(res.mainApi);
+      setTopCoins(res.topApi);
     });
-
-    getTopApi().then((res) => setTopCoins(res.data));
-  }, [currentPage]);
-  console.log(myCoins);
-  return isLoading ? (
+  }, [currentPage, search]);
+  return coins.length == 0 ? (
     <div style={{ textAlign: "center", marginTop: "30vh", fontSize: "50px" }}>
       Подождите, идет загрузка!
     </div>
@@ -58,6 +54,8 @@ function App() {
         setCurrentPage,
         myCoins,
         setMyCoins,
+        search,
+        setSearch,
       }}>
       <div className={styles.app}>
         <Header />

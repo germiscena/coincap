@@ -1,11 +1,10 @@
 import React from "react";
-import styles from "./Header.module.scss";
+import styles from "../styles/Header.module.scss";
 import AppContext from "../context";
 import Wallet from "../img/wallet.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import toMain from "../img/back.png";
 import Search from "../img/search.svg";
-import axios from "axios";
 
 const Header = () => {
   type coinApis = {

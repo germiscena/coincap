@@ -1,58 +1,43 @@
 import React from "react";
-import styles from "./Item.module.scss";
-import { useLocation } from "react-router-dom";
+import styles from "../styles/Item.module.scss";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getGraphApi } from "../getApi";
 import Graph from "../components/Graph";
+import { convert } from "../env";
+import ButtonBuyCoins from "../components/ButtonBuyCoins";
+import AppContext from "../context";
+import ModalBuy from "../components/ModalBuy";
 
 const Item = () => {
-  type coinApis = {
-    id: string;
-    rank: string;
-    symbol: string;
-    name: string;
-    supply: string;
-    maxSupply: string;
-    marketCapUsd: string;
-    volumeUsd24Hr: string;
-    priceUsd: string;
-    changePercent24Hr: string;
-    vwap24Hr: string;
-  };
+  const { isModalBuy }: any = React.useContext(AppContext);
 
   type graphApi = {
     date: string;
     priceUsd: string;
     time: number;
   };
-
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [graphData, setGraphData] = React.useState<any>([]);
+  const [graphData, setGraphData] = React.useState<graphApi[]>([]);
+  const [graphPeriod, setGraphPeriod] = React.useState<string>("d1");
   const location = useLocation();
-  const {
-    id,
-    rank,
-    symbol,
-    name,
-    supply,
-    marketCapUsd,
-    volumeUsd24Hr,
-    priceUsd,
-    changePercent24Hr,
-    vwap24Hr,
-  }: coinApis = location.state;
-
+  const navigate = useNavigate();
   React.useEffect(() => {
-    location.state && setLoading(false);
-    getGraphApi(id).then((res) =>
-      res.forEach((data: any) =>
-        setGraphData((prev: any) => [...prev, data.priceUsd.slice(0, -13)]),
-      ),
-    );
-  }, [location.state]);
-  console.log(graphData);
+    if (location.state == null) {
+      navigate("/error");
+    } else {
+      setLoading(false);
+      setGraphData([]);
+      getGraphApi(location.state.id, graphPeriod).then((res) =>
+        res.forEach((data: any) =>
+          setGraphData((prev: any) => [...prev, String(Number(data.priceUsd).toFixed(2))]),
+        ),
+      );
+    }
+  }, [location.state, graphPeriod]);
+
   return (
     <div>
-      {loading ? (
+      {loading && location.state == null ? (
         <h1>Пожалуйста подождите!</h1>
       ) : (
         <>
@@ -60,25 +45,47 @@ const Item = () => {
           <div className={styles.box}>
             <div className={styles.graph}>
               <Graph info={graphData} />
+              <div>
+                <button onClick={() => setGraphPeriod("m1")} className={styles.button}>
+                  минута
+                </button>
+                <button onClick={() => setGraphPeriod("h1")} className={styles.button}>
+                  час
+                </button>
+                <button onClick={() => setGraphPeriod("d1")} className={styles.button}>
+                  день
+                </button>
+              </div>
             </div>
             <div className={styles.information}>
-              <p className={styles.paragraphs}>Позиция в топе: {rank}</p>
-              <p className={styles.paragraphs}>Символ: {symbol}</p>
-              <p className={styles.paragraphs}>Полное название: {name}</p>
-              <p className={styles.paragraphs}>Доступно к торговле: {supply.slice(0, -15)}</p>
-              <p className={styles.paragraphs}>Стоимость торгов: {marketCapUsd.slice(0, -15)}</p>
+              <p className={styles.paragraphs}>Позиция в топе: {location.state.rank}</p>
+              <p className={styles.paragraphs}>Символ: {location.state.symbol}</p>
+              <p className={styles.paragraphs}>Полное название: {location.state.name}</p>
               <p className={styles.paragraphs}>
-                Объем торгов за последние 24 часа: {volumeUsd24Hr}
-              </p>
-              <p className={styles.paragraphs}>Цена в USD: {priceUsd}</p>
-              <p className={styles.paragraphs}>
-                Изменения за последние 24 часа: {changePercent24Hr.slice(0, -15)}
+                Доступно к торговле: {convert(location.state.supply)}
               </p>
               <p className={styles.paragraphs}>
-                Цена торгов за последние 24 часа: {vwap24Hr.slice(0, -15)}
+                Стоимость торгов: {convert(location.state.marketCapUsd)}
               </p>
+              <p className={styles.paragraphs}>
+                Объем торгов за последние 24 часа: {convert(location.state.volumeUsd24Hr)}
+              </p>
+              <p className={styles.paragraphs}>Цена в USD: {convert(location.state.priceUsd)}</p>
+              <p className={styles.paragraphs}>
+                Изменения за последние 24 часа: {convert(location.state.changePercent24Hr)}
+              </p>
+              <p className={styles.paragraphs}>
+                Цена торгов за последние 24 часа: {convert(location.state.vwap24Hr)}
+              </p>
+              <div className={styles.buyButton}>
+                <p>Купить монету</p>
+                <div className={styles.buyButtonBox}>
+                  <ButtonBuyCoins params={location.state} />
+                </div>
+              </div>
             </div>
           </div>
+          {isModalBuy && <ModalBuy />}
         </>
       )}
     </div>

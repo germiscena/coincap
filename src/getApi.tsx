@@ -11,9 +11,9 @@ export async function getApi(currentPage: number, search: string) {
   return { mainApi, topApi };
 }
 
-export async function getGraphApi(name: string) {
+export async function getGraphApi(id: string, period: string) {
   const data = await axios
-    .get(`${API_URL}/${name}/history?interval=d1`)
+    .get(`${API_URL}/${id}/history?interval=${period}`)
     .then((res) => res.data.data);
   return data;
 }

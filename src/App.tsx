@@ -1,11 +1,12 @@
 import React from "react";
-import styles from "./App.module.scss";
+import styles from "./styles/App.module.scss";
 import Header from "./components/Header";
 import { Routes, Route } from "react-router-dom";
 import Main from "./pages/Main";
 import Item from "./pages/Item";
 import AppContext from "./context";
 import { getApi } from "./getApi";
+import Error from "./pages/Error";
 
 function App() {
   type coinApis = {
@@ -29,7 +30,8 @@ function App() {
     priceUsd: string;
     count: string;
   };
-
+  const [isModalBuy, setIsModalBuy] = React.useState(false);
+  const [buyCoin, setbuyCoin] = React.useState<myCoin>();
   const [coins, setCoins] = React.useState<coinApis[]>([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [topCoins, setTopCoins] = React.useState<coinApis[]>();
@@ -56,12 +58,17 @@ function App() {
         setMyCoins,
         search,
         setSearch,
+        isModalBuy,
+        setIsModalBuy,
+        buyCoin,
+        setbuyCoin,
       }}>
       <div className={styles.app}>
         <Header />
         <Routes>
           <Route path='/' element={<Main />} />
           <Route path='/:name' element={<Item />} />
+          <Route path='/error' element={<Error />} />
         </Routes>
       </div>
     </AppContext.Provider>

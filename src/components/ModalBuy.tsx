@@ -1,7 +1,7 @@
 import React, { RefObject } from "react";
-import style from "./BuyCoins.module.scss";
+import style from "../styles/ModalBuy.module.scss";
 import AppContext from "../context";
-
+import { convert } from "../env";
 type myCoin = {
   id: string;
   symbol: string;
@@ -10,30 +10,31 @@ type myCoin = {
   count: string;
 };
 
-const BuyCoins = ({ setModal, thisCoin }: any) => {
+const ModalBuy = () => {
   const inputRef: RefObject<HTMLInputElement> = React.useRef(null);
-  const { setMyCoins }: any = React.useContext(AppContext);
+  const { setMyCoins, setIsModalBuy, buyCoin }: any = React.useContext(AppContext);
+  console.log(buyCoin, "MODAL");
   function submit(id: string, symbol: string, name: string, priceUsd: string, count: string) {
     setMyCoins((prev: myCoin[]) => [...prev, { id, symbol, name, priceUsd, count }]);
-    setModal(false);
+    setIsModalBuy(false);
   }
   return (
     <div className={style.backside}>
       <div className={style.modal}>
-        <p onClick={() => setModal(false)} className={style.close}>
+        <p onClick={() => setIsModalBuy(false)} className={style.close}>
           X
         </p>
-        <p className={style.coin}>{thisCoin.symbol}</p>
+        <p className={style.coin}>{buyCoin.symbol}</p>
         <p className={style.title}>Введите количество, которое желаете приобрести:</p>
         <div className={style.input}>
-          <input ref={inputRef} className={style.count} type='number' />
+          <input ref={inputRef} className={style.count} min='0' type='number' />
           <p
             onClick={() =>
               submit(
-                thisCoin.id,
-                thisCoin.symbol,
-                thisCoin.name,
-                thisCoin.priceUsd,
+                buyCoin.id,
+                buyCoin.symbol,
+                buyCoin.name,
+                buyCoin.priceUsd,
                 inputRef.current!.value,
               )
             }
@@ -42,11 +43,11 @@ const BuyCoins = ({ setModal, thisCoin }: any) => {
           </p>
         </div>
         <p className={style.coin}>
-          1{thisCoin.symbol} = {thisCoin.priceUsd.slice(0, -14)}
+          1{buyCoin.symbol} = {convert(buyCoin.priceUsd)}$
         </p>
       </div>
     </div>
   );
 };
 
-export default BuyCoins;
+export default ModalBuy;

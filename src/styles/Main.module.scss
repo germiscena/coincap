@@ -1,0 +1,15 @@
+.table {
+  height: 70vh;
+  border-bottom: 2px solid #282c34;
+  width: "100%";
+  border-spacing: 0;
+
+  .single {
+    background-color: white;
+  }
+
+  .single:hover {
+    background-color: #282c34;
+    color: white;
+  }
+}

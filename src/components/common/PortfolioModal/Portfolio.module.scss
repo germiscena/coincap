@@ -1,0 +1,82 @@
+.portfolio {
+  position: absolute;
+  right: 0;
+  top: 0vh;
+  left: 0;
+  padding: 15vh 10vw;
+  z-index: 2;
+
+  .modal {
+    box-sizing: border-box;
+    width: 80vw;
+    height: 70vh;
+    background-color: #282c34;
+    margin: 0 auto;
+    padding: 3vmin;
+    border: 3px solid black;
+    border-radius: 50px;
+
+    .head {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 20%;
+      h3 {
+        margin: 0;
+      }
+      button {
+        border: none;
+        background-color: white;
+        color: #282c34;
+        text-align: center;
+        margin-left: 100px;
+        border-radius: 50%;
+        height: 5vmin;
+        width: 5vmin;
+        font-size: 3vmin;
+        font-family: sans-serif;
+        cursor: pointer;
+      }
+    }
+    .coins {
+      display: flex;
+      flex-direction: column;
+      padding: 0px 10px;
+      margin-top: 30px;
+      height: 80%;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .coinInfo {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        align-items: center;
+        border: 1px solid white;
+
+        .name {
+          margin: 0;
+          width: 20%;
+          text-align: start;
+        }
+        .count {
+          margin: 0;
+          width: 20%;
+          text-align: end;
+        }
+        .singlePrice {
+          margin: 0;
+          width: 30%;
+          text-align: end;
+        }
+        .totalPrice {
+          margin: 0;
+          width: 30%;
+          text-align: end;
+          margin-right: 5vmin;
+        }
+      }
+    }
+  }
+}

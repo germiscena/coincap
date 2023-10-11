@@ -1,29 +1,15 @@
 import React from "react";
-import styles from "../styles/Main.module.scss";
-import AppContext from "../context";
-import Pagination from "../components/Pagination";
+import styles from "./Main.module.scss";
+import AppContext from "../../../context";
+import Pagination from "../../common/Pagination/Pagination";
 import { useNavigate } from "react-router-dom";
-import ModalBuy from "../components/ModalBuy";
-import { convert } from "../env";
-import ButtonBuyCoins from "../components/ButtonBuyCoins";
-
-type coinApis = {
-  id: string;
-  rank: string;
-  symbol: string;
-  name: string;
-  supply: string;
-  maxSupply: string;
-  marketCapUsd: string;
-  volumeUsd24Hr: string;
-  priceUsd: string;
-  changePercent24Ht: string;
-  vwap24Hr: string;
-};
+import ModalBuy from "../../common/ModalBuy/ModalBuy";
+import { convert } from "../../../env";
+import ButtonBuyCoins from "../../common/ButtonBuyCoins/ButtonBuyCoins";
+import { coinApis } from "../../../types/types";
 
 const Main = () => {
-  const { setCurrentPage, coins, isModalBuy, setIsModalBuy, buyCoin, setbuyCoin }: any =
-    React.useContext(AppContext);
+  const { setCurrentPage, coins, isModalBuy }: any = React.useContext(AppContext);
   const navigate = useNavigate();
 
   function changePage(i: number) {

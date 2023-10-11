@@ -1,21 +1,32 @@
 import React, { RefObject } from "react";
-import style from "../styles/ModalBuy.module.scss";
-import AppContext from "../context";
-import { convert } from "../env";
-type myCoin = {
-  id: string;
-  symbol: string;
-  name: string;
-  priceUsd: string;
-  count: string;
-};
+import style from "./ModalBuy.module.scss";
+import AppContext from "../../../context";
+import { convert } from "../../../env";
+import { myCoin } from "../../../types/types";
 
 const ModalBuy = () => {
   const inputRef: RefObject<HTMLInputElement> = React.useRef(null);
-  const { setMyCoins, setIsModalBuy, buyCoin }: any = React.useContext(AppContext);
-  console.log(buyCoin, "MODAL");
+  const { setMyCoins, myCoins, setIsModalBuy, buyCoin }: any = React.useContext(AppContext);
   function submit(id: string, symbol: string, name: string, priceUsd: string, count: string) {
-    setMyCoins((prev: myCoin[]) => [...prev, { id, symbol, name, priceUsd, count }]);
+    setMyCoins((prevCoins: myCoin[]) => {
+      const existingCoin = prevCoins.find((coin) => coin.name === name);
+      if (existingCoin) {
+        return prevCoins.map((coin) =>
+          coin.name === name
+            ? { ...coin, count: String(Number(coin.count) + Number(count)) }
+            : coin,
+        );
+      } else {
+        if (Number(count) != 0) {
+          return [...prevCoins, { id, symbol, name, priceUsd, count }];
+        } else {
+          return prevCoins;
+        }
+      }
+    });
+    // if (!localStorage.getItem("coins")) {
+    //   localStorage.setItem("coins", JSON.stringify({ id, symbol, name, priceUsd, count }));
+    // }
     setIsModalBuy(false);
   }
   return (
@@ -27,7 +38,7 @@ const ModalBuy = () => {
         <p className={style.coin}>{buyCoin.symbol}</p>
         <p className={style.title}>Введите количество, которое желаете приобрести:</p>
         <div className={style.input}>
-          <input ref={inputRef} className={style.count} min='0' type='number' />
+          <input ref={inputRef} className={style.count} min='0' max='100' type='number' />
           <p
             onClick={() =>
               submit(

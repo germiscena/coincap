@@ -1,37 +1,29 @@
 import React from "react";
-import styles from "../styles/Header.module.scss";
-import AppContext from "../context";
-import Wallet from "../img/wallet.svg";
+import styles from "./Header.module.scss";
+import AppContext from "../../../context";
 import { useLocation, useNavigate } from "react-router-dom";
-import toMain from "../img/back.png";
-import Search from "../img/search.svg";
+import toMain from "../../../img/back.png";
+import Search from "../../../img/search.svg";
+import Wallet from "../../../img/wallet.svg";
+import { coinApis, walletCoins } from "../../../types/types";
+import Portfolio from "../PortfolioModal/Portfolio";
+import { convert } from "../../../env";
 
 const Header = () => {
-  type coinApis = {
-    id: string;
-    rank: string;
-    symbol: string;
-    name: string;
-    supply: string;
-    maxSupply: string;
-    marketCapUsd: string;
-    volumeUsd24Hr: string;
-    priceUsd: string;
-    changePercent24Hr: string;
-    vwap24Hr: string;
-  };
-  type walletCoins = {
-    id: string;
-    symbol: string;
-    name: string;
-    priceUsd: string;
-    count: string;
-  };
-
-  const { topCoins, myCoins, search, setSearch }: any = React.useContext(AppContext);
+  const {
+    topCoins,
+    myCoins,
+    setMyCoins,
+    search,
+    setSearch,
+    isModalPortfolio,
+    setIsModalPortfolio,
+  }: any = React.useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
   const [walletCost, setWalletCost] = React.useState<number>(0);
+  const [updateCoins, setUpdateCoins] = React.useState<boolean>(true);
+  const coins = localStorage.getItem("coins");
   React.useEffect(() => {
     setWalletCost(
       myCoins.reduce(
@@ -40,7 +32,17 @@ const Header = () => {
         0,
       ),
     );
+    if (coins && updateCoins) {
+      setMyCoins(JSON.parse(coins));
+      setUpdateCoins(false);
+    } else if (!coins && myCoins) {
+      localStorage.setItem("coins", JSON.stringify(myCoins));
+      setUpdateCoins(false);
+    } else {
+      localStorage.setItem("coins", JSON.stringify(myCoins));
+    }
   }, [myCoins]);
+
   return (
     <div className={styles.header}>
       {location.pathname != "/" ? (
@@ -73,11 +75,17 @@ const Header = () => {
         })}
       </div>
       <div className={styles.portfolio}>
-        <img src={Wallet} alt='wallet' className={styles.wallet} />
+        <img
+          onClick={() => setIsModalPortfolio(true)}
+          src={Wallet}
+          alt='wallet'
+          className={styles.wallet}
+        />
         <p className={styles.money}>
-          {walletCost == 0 ? 0 : walletCost.toString().slice(0, -10)} USD +2,38 (1,80 %)
+          {walletCost == 0 ? 0 : convert(String(walletCost))} USD +2,38 (1,80 %)
         </p>
       </div>
+      {isModalPortfolio && <Portfolio />}
     </div>
   );
 };

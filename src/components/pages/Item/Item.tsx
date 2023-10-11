@@ -1,12 +1,12 @@
 import React from "react";
-import styles from "../styles/Item.module.scss";
+import styles from "./Item.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getGraphApi } from "../getApi";
-import Graph from "../components/Graph";
-import { convert } from "../env";
-import ButtonBuyCoins from "../components/ButtonBuyCoins";
-import AppContext from "../context";
-import ModalBuy from "../components/ModalBuy";
+import { getGraphApi } from "../../../getApi";
+import Graph from "../../common/Graph/Graph";
+import { convert } from "../../../env";
+import ButtonBuyCoins from "../../common/ButtonBuyCoins/ButtonBuyCoins";
+import AppContext from "../../../context";
+import ModalBuy from "../../common/ModalBuy/ModalBuy";
 
 const Item = () => {
   const { isModalBuy }: any = React.useContext(AppContext);

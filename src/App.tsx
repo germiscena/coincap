@@ -1,42 +1,23 @@
 import React from "react";
-import styles from "./styles/App.module.scss";
-import Header from "./components/Header";
+import styles from "./App.module.scss";
+import Header from "./components/common/Header/Header";
 import { Routes, Route } from "react-router-dom";
-import Main from "./pages/Main";
-import Item from "./pages/Item";
+import Main from "./components/pages/Main/Main";
+import Item from "./components/pages/Item/Item";
 import AppContext from "./context";
 import { getApi } from "./getApi";
-import Error from "./pages/Error";
+import Error from "./components/pages/Error";
+import { coinApis, myCoin } from "./types/types";
 
 function App() {
-  type coinApis = {
-    id: string;
-    rank: string;
-    symbol: string;
-    name: string;
-    supply: string;
-    maxSupply: string;
-    marketCapUsd: string;
-    volumeUsd24Hr: string;
-    priceUsd: string;
-    changePercent24Hr: string;
-    vwap24Hr: string;
-  };
-
-  type myCoin = {
-    id: string;
-    symbol: string;
-    name: string;
-    priceUsd: string;
-    count: string;
-  };
-  const [isModalBuy, setIsModalBuy] = React.useState(false);
+  const [isModalBuy, setIsModalBuy] = React.useState<boolean>(false);
   const [buyCoin, setbuyCoin] = React.useState<myCoin>();
   const [coins, setCoins] = React.useState<coinApis[]>([]);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [topCoins, setTopCoins] = React.useState<coinApis[]>();
   const [myCoins, setMyCoins] = React.useState<myCoin[]>([]);
   const [search, setSearch] = React.useState<string>("");
+  const [isModalPortfolio, setIsModalPortfolio] = React.useState<boolean>(false);
   React.useEffect(() => {
     getApi(currentPage, search).then((res) => {
       setCoins(res.mainApi);
@@ -62,6 +43,8 @@ function App() {
         setIsModalBuy,
         buyCoin,
         setbuyCoin,
+        isModalPortfolio,
+        setIsModalPortfolio,
       }}>
       <div className={styles.app}>
         <Header />

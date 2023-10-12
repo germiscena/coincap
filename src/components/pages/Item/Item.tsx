@@ -7,15 +7,11 @@ import { convert } from "../../../env";
 import ButtonBuyCoins from "../../common/ButtonBuyCoins/ButtonBuyCoins";
 import AppContext from "../../../context";
 import ModalBuy from "../../common/ModalBuy/ModalBuy";
+import { graphApi } from "../../../types/types";
 
 const Item = () => {
   const { isModalBuy }: any = React.useContext(AppContext);
 
-  type graphApi = {
-    date: string;
-    priceUsd: string;
-    time: number;
-  };
   const [loading, setLoading] = React.useState<boolean>(true);
   const [graphData, setGraphData] = React.useState<graphApi[]>([]);
   const [graphPeriod, setGraphPeriod] = React.useState<string>("d1");

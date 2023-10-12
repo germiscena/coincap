@@ -26,3 +26,9 @@ export type myCoin = {
   priceUsd: string;
   count: string;
 };
+
+export type graphApi = {
+  date: string;
+  priceUsd: string;
+  time: number;
+};

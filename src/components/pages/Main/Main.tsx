@@ -115,7 +115,7 @@ const Main = () => {
                   style={{
                     fontSize: "calc(10px + 0.5vw)",
                   }}>
-                  <ButtonBuyCoins clsassName={styles.buy} params={item} />
+                  <ButtonBuyCoins params={item} />
                 </th>
               </tr>
             );

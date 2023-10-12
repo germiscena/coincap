@@ -5,43 +5,22 @@ import { useLocation, useNavigate } from "react-router-dom";
 import toMain from "../../../img/back.png";
 import Search from "../../../img/search.svg";
 import Wallet from "../../../img/wallet.svg";
-import { coinApis, walletCoins } from "../../../types/types";
+import { coinApis } from "../../../types/types";
 import Portfolio from "../PortfolioModal/Portfolio";
 import { convert } from "../../../env";
 
 const Header = () => {
   const {
     topCoins,
-    myCoins,
-    setMyCoins,
     search,
     setSearch,
     isModalPortfolio,
     setIsModalPortfolio,
+    walletCost,
+    difference,
   }: any = React.useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const [walletCost, setWalletCost] = React.useState<number>(0);
-  const [updateCoins, setUpdateCoins] = React.useState<boolean>(true);
-  const coins = localStorage.getItem("coins");
-  React.useEffect(() => {
-    setWalletCost(
-      myCoins.reduce(
-        (sum: number, curr: walletCoins) =>
-          sum + Number(curr.priceUsd) * Math.abs(Number(curr.count)),
-        0,
-      ),
-    );
-    if (coins && updateCoins) {
-      setMyCoins(JSON.parse(coins));
-      setUpdateCoins(false);
-    } else if (!coins && myCoins) {
-      localStorage.setItem("coins", JSON.stringify(myCoins));
-      setUpdateCoins(false);
-    } else {
-      localStorage.setItem("coins", JSON.stringify(myCoins));
-    }
-  }, [myCoins]);
 
   return (
     <div className={styles.header}>
@@ -82,7 +61,7 @@ const Header = () => {
           className={styles.wallet}
         />
         <p className={styles.money}>
-          {walletCost == 0 ? 0 : convert(String(walletCost))} USD +2,38 (1,80 %)
+          {walletCost == 0 ? 0 : convert(String(walletCost))}$ {difference}
         </p>
       </div>
       {isModalPortfolio && <Portfolio />}

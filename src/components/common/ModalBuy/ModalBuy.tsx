@@ -6,10 +6,10 @@ import { myCoin } from "../../../types/types";
 
 const ModalBuy = () => {
   const inputRef: RefObject<HTMLInputElement> = React.useRef(null);
-  const { setMyCoins, myCoins, setIsModalBuy, buyCoin }: any = React.useContext(AppContext);
+  const { setMyCoins, setIsModalBuy, buyCoin }: any = React.useContext(AppContext);
   function submit(id: string, symbol: string, name: string, priceUsd: string, count: string) {
     setMyCoins((prevCoins: myCoin[]) => {
-      const existingCoin = prevCoins.find((coin) => coin.name === name);
+      const existingCoin: myCoin | undefined = prevCoins.find((coin) => coin.name === name);
       if (existingCoin) {
         return prevCoins.map((coin) =>
           coin.name === name
@@ -24,9 +24,6 @@ const ModalBuy = () => {
         }
       }
     });
-    // if (!localStorage.getItem("coins")) {
-    //   localStorage.setItem("coins", JSON.stringify({ id, symbol, name, priceUsd, count }));
-    // }
     setIsModalBuy(false);
   }
   return (

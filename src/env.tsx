@@ -1,11 +1,8 @@
-import React from "react";
-import AppContext from "./context";
-
 export const API_URL: string = `https://api.coincap.io/v2/assets`;
 
 export function convert(value: string) {
   const priceUsd: string =
-    Number(value) < 0.01
+    Number(value) < 1
       ? String(Number(value).toFixed(4))
       : Number(value) < 1000
       ? String(Number(value).toFixed(2))

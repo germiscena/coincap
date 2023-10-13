@@ -7,6 +7,24 @@ import { myCoin } from "../../../types/types";
 const ModalBuy = () => {
   const inputRef: RefObject<HTMLInputElement> = React.useRef(null);
   const { setMyCoins, setIsModalBuy, buyCoin }: any = React.useContext(AppContext);
+  const [blocked, setBlocked] = React.useState(true);
+  React.useEffect(() => {
+    const handleInputChange = () => {
+      const inputValue = inputRef.current?.value;
+      if (inputValue && Number(inputValue) >= 0 && Number(inputValue) <= 100) {
+        setBlocked(false);
+      } else {
+        setBlocked(true);
+      }
+    };
+    if (inputRef.current) {
+      inputRef.current.addEventListener("input", handleInputChange);
+      return () => {
+        inputRef.current?.removeEventListener("input", handleInputChange);
+      };
+    }
+  }, [inputRef.current]);
+
   function submit(id: string, symbol: string, name: string, priceUsd: string, count: string) {
     setMyCoins((prevCoins: myCoin[]) => {
       const existingCoin: myCoin | undefined = prevCoins.find((coin) => coin.name === name);
@@ -24,6 +42,7 @@ const ModalBuy = () => {
         }
       }
     });
+    setBlocked(true);
     setIsModalBuy(false);
   }
   return (
@@ -46,6 +65,7 @@ const ModalBuy = () => {
                 inputRef.current!.value,
               )
             }
+            style={blocked ? { visibility: "hidden" } : { visibility: "visible" }}
             className={style.accept}>
             OK
           </p>

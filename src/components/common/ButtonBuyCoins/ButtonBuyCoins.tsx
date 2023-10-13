@@ -13,7 +13,6 @@ const ButtonBuyCoins = ({ params }: any) => {
         margin: "0",
         cursor: "pointer",
         marginTop: "-3px",
-        height: "100%",
       }}
       onClick={() => addCoin(params.id, params.symbol, params.name, params.priceUsd)}>
       +

@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./App.module.scss";
 import Header from "./components/common/Header/Header";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Main from "./components/pages/Main/Main";
 import Item from "./components/pages/Item/Item";
 import AppContext from "./context";
-import { getApi, getDiffApi } from "./getApi";
+import { getApi, getDiffApi, getSearchApi } from "./getApi";
 import Error from "./components/pages/Error";
 import { coinApis, myCoin, walletCoins } from "./types/types";
 import { convert } from "./env";
@@ -24,12 +24,15 @@ function App() {
   const [updateCoins, setUpdateCoins] = React.useState<boolean>(true);
   const [difference, setDifference] = React.useState<string>("+0,00 (0,00 %)");
   const storageCoins: string | null = localStorage.getItem("coins");
-
+  const navigate = useNavigate();
   React.useEffect(() => {
-    getApi(currentPage, search).then((res) => {
+    getApi(currentPage).then((res) => {
       setCoins(res.mainApi);
       setTopCoins(res.topApi);
     });
+  }, []);
+
+  React.useEffect(() => {
     setWalletCost(
       myCoins.reduce(
         (sum: number, curr: walletCoins) =>
@@ -37,6 +40,21 @@ function App() {
         0,
       ),
     );
+    if (search != "") {
+      getSearchApi(currentPage, search).then((res) => {
+        if (res == null) {
+          navigate("/error");
+          setSearch("");
+        } else {
+          setCoins(res);
+        }
+      });
+    } else {
+      getApi(currentPage).then((res) => {
+        setCoins(res.mainApi);
+      });
+    }
+
     if (storageCoins && updateCoins) {
       setMyCoins(JSON.parse(storageCoins));
       setUpdateCoins(false);

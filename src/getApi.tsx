@@ -2,14 +2,26 @@ import axios from "axios";
 import { API_URL } from "./env";
 import { coinApis } from "./types/types";
 
-export async function getApi(currentPage: number, search: string) {
-  const mainLink: string = `${API_URL}${
-    search == "" ? "?" : `?search=${search}&`
-  }limit=10&page=${currentPage}&offset=${10 * (-1 + currentPage)}`;
+export async function getApi(currentPage: number) {
+  const mainLink: string = `${API_URL}?limit=10&page=${currentPage}&offset=${
+    10 * (-1 + currentPage)
+  }`;
   const topLink: string = `${API_URL}?limit=3`;
   const mainApi: coinApis[] = await axios.get(mainLink).then((res) => res.data.data);
   const topApi: coinApis[] = await axios.get(topLink).then((res) => res.data.data);
   return { mainApi, topApi };
+}
+
+export async function getSearchApi(currentPage: number, search: string) {
+  const mainLink: string = `${API_URL}${
+    search == "" ? "?" : `?search=${search}&`
+  }limit=10&page=${currentPage}&offset=${10 * (-1 + currentPage)}`;
+  const mainApi: coinApis[] = await axios.get(mainLink).then((res) => res.data.data);
+  if (mainApi.length == 0) {
+    return null;
+  } else {
+    return mainApi;
+  }
 }
 
 export async function getDiffApi(arr: string[]) {

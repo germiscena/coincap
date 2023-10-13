@@ -42,13 +42,9 @@ const Header = () => {
       </div>
       <div className={styles.top}>
         {topCoins.map((item: coinApis) => {
-          const priceUsd =
-            Number(item.priceUsd) > 999
-              ? `${(Number(item.priceUsd) / 1000).toFixed(2)}k`
-              : Number(item.priceUsd).toFixed(2);
           return (
             <p key={item.rank} className={styles.topList}>
-              {item.rank} - {item.name} - {priceUsd} $
+              {item.rank} - {item.name} - {convert(item.priceUsd)} $
             </p>
           );
         })}

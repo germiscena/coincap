@@ -27,19 +27,10 @@ const ModalBuy = () => {
 
   function submit(id: string, symbol: string, name: string, priceUsd: string, count: string) {
     setMyCoins((prevCoins: myCoin[]) => {
-      const existingCoin: myCoin | undefined = prevCoins.find((coin) => coin.name === name);
-      if (existingCoin) {
-        return prevCoins.map((coin) =>
-          coin.name === name
-            ? { ...coin, count: String(Number(coin.count) + Number(count)) }
-            : coin,
-        );
+      if (Number(count) != 0) {
+        return [...prevCoins, { id, symbol, name, priceUsd, count }];
       } else {
-        if (Number(count) != 0) {
-          return [...prevCoins, { id, symbol, name, priceUsd, count }];
-        } else {
-          return prevCoins;
-        }
+        return prevCoins;
       }
     });
     setBlocked(true);

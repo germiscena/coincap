@@ -8,7 +8,7 @@
 
   .modal {
     box-sizing: border-box;
-    width: 60vw;
+    width: 80vw;
     height: 70vh;
     background-color: #282c34;
     margin: 0 auto;
@@ -57,24 +57,29 @@
 
         .name {
           margin: 0;
-          width: 40%;
+          width: 20%;
           text-align: start;
         }
         .count {
           margin: 0;
-          width: 20%;
-          text-align: end;
+          width: 15%;
+          text-align: center;
         }
         .singlePrice {
           margin: 0;
           width: 20%;
-          text-align: end;
+          text-align: center;
+        }
+        .currentPrice {
+          margin: 0;
+          width: 20%;
+          text-align: center;
         }
         .totalPrice {
           margin: 0;
           width: 20%;
           text-align: end;
-          margin-right: 3vmin;
+          margin-right: 5%;
         }
       }
     }

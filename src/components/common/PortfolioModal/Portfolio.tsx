@@ -7,7 +7,9 @@ import ButtonBuyCoins from "../ButtonBuyCoins/ButtonBuyCoins";
 import ModalBuy from "../ModalBuy/ModalBuy";
 
 const Portfolio = () => {
-  const { myCoins, setIsModalPortfolio, isModalBuy }: any = React.useContext(AppContext);
+  const { myCoins, setIsModalPortfolio, isModalBuy, singleCurrentCoinCost }: any =
+    React.useContext(AppContext);
+
   return (
     <div className={styles.portfolio}>
       <div className={styles.modal}>
@@ -16,12 +18,20 @@ const Portfolio = () => {
           <button onClick={() => setIsModalPortfolio(false)}>X</button>
         </div>
         <div className={styles.coins}>
-          {myCoins.map((item: myCoin) => {
+          <div className={styles.coinInfo}>
+            <p className={styles.name}>Название</p>
+            <p className={styles.count}>Количество</p>
+            <p className={styles.singlePrice}>Цена покупки</p>
+            <p className={styles.currentPrice}>Нынешняя цена</p>
+            <p className={styles.totalPrice}>Итоговая цена покупки</p>
+          </div>
+          {myCoins.map((item: myCoin, id: number) => {
             return (
-              <div key={item.name} className={styles.coinInfo}>
+              <div key={id} className={styles.coinInfo}>
                 <p className={styles.name}>{item.name}</p>
                 <p className={styles.count}>{item.count}</p>
                 <p className={styles.singlePrice}>{convert(item.priceUsd)}</p>
+                <p className={styles.currentPrice}>{convert(singleCurrentCoinCost[id])}</p>
                 <p className={styles.totalPrice}>
                   {convert(String(Number(item.count) * Number(item.priceUsd)))}
                 </p>

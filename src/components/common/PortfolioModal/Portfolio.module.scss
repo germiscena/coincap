@@ -54,32 +54,23 @@
         width: 100%;
         align-items: center;
         border: 1px solid white;
-
-        .name {
-          margin: 0;
-          width: 20%;
-          text-align: start;
-        }
-        .count {
-          margin: 0;
-          width: 15%;
+        .column {
+          border-right: 1px solid white;
+          height: 100%;
           text-align: center;
+          align-items: center;
+          width: 18%;
         }
-        .singlePrice {
+        .lastColumn {
+          width: 18%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          margin: 1vmin 0;
+        }
+        p {
           margin: 0;
-          width: 20%;
           text-align: center;
-        }
-        .currentPrice {
-          margin: 0;
-          width: 20%;
-          text-align: center;
-        }
-        .totalPrice {
-          margin: 0;
-          width: 20%;
-          text-align: end;
-          margin-right: 5%;
         }
       }
     }

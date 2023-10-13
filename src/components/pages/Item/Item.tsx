@@ -75,9 +75,7 @@ const Item = () => {
               </p>
               <div className={styles.buyButton}>
                 <p>Купить монету</p>
-                <div className={styles.buyButtonBox}>
-                  <ButtonBuyCoins params={location.state} />
-                </div>
+                <ButtonBuyCoins params={location.state} />
               </div>
             </div>
           </div>

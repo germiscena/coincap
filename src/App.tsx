@@ -12,7 +12,10 @@ import { convert } from "./env";
 
 function App() {
   const [isModalBuy, setIsModalBuy] = React.useState<boolean>(false);
+  const [isModalRemove, setIsModalRemove] = React.useState<boolean>(false);
   const [buyCoin, setbuyCoin] = React.useState<myCoin>();
+  const [removeCoin, setRemoveCoin] = React.useState<myCoin>();
+  const [removeMaxCount, setRemoveMaxCount] = React.useState<number>();
   const [coins, setCoins] = React.useState<coinApis[]>([]);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [topCoins, setTopCoins] = React.useState<coinApis[]>();
@@ -62,16 +65,19 @@ function App() {
           setSingleCurrentCoinCost(res.singlePrices);
         });
       }
+
       currentCost &&
         setDifference(
-          convert(String(walletCost - currentCost)) +
+          (currentCost - walletCost > 0
+            ? "+" + convert(String(currentCost - walletCost))
+            : convert(String(currentCost - walletCost))) +
             "$ (" +
-            convert(String(Math.abs((walletCost - currentCost) / walletCost) * 100)) +
+            convert(String(Math.abs((currentCost - walletCost) / walletCost) * 100)) +
             " %)",
         );
     }
     getDifference();
-  }, [currentCost, walletCost]);
+  }, [currentCost, walletCost, currentPage]);
 
   React.useEffect(() => {
     setWalletCost(
@@ -117,6 +123,12 @@ function App() {
         setCurrentCost,
         difference,
         singleCurrentCoinCost,
+        removeCoin,
+        setRemoveCoin,
+        isModalRemove,
+        setIsModalRemove,
+        removeMaxCount,
+        setRemoveMaxCount,
       }}>
       <div className={styles.app}>
         <Header />

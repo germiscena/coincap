@@ -21,7 +21,6 @@ const Header = () => {
   }: any = React.useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
-
   return (
     <div className={styles.header}>
       {location.pathname != "/" ? (
@@ -57,7 +56,7 @@ const Header = () => {
           className={styles.wallet}
         />
         <p className={styles.money}>
-          {walletCost == 0 ? 0 : convert(String(walletCost))}$ {difference}
+          {walletCost == 0 ? "0$" : `${convert(String(walletCost))}$ | ${difference}`}
         </p>
       </div>
       {isModalPortfolio && <Portfolio />}

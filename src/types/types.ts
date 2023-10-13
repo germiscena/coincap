@@ -25,6 +25,7 @@ export type myCoin = {
   name: string;
   priceUsd: string;
   count: string;
+  portfolioId: string;
 };
 
 export type graphApi = {

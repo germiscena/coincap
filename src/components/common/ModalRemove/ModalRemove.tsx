@@ -1,17 +1,18 @@
 import React, { RefObject } from "react";
-import style from "./ModalBuy.module.scss";
+import style from "./ModalRemove.module.scss";
 import AppContext from "../../../context";
 import { convert } from "../../../env";
 import { myCoin } from "../../../types/types";
 
-const ModalBuy = () => {
+const ModalRemove = () => {
   const inputRef: RefObject<HTMLInputElement> = React.useRef(null);
-  const { setMyCoins, setIsModalBuy, buyCoin }: any = React.useContext(AppContext);
+  const { setMyCoins, setIsModalRemove, removeCoin, removeMaxCount, myCoins }: any =
+    React.useContext(AppContext);
   const [blocked, setBlocked] = React.useState(true);
   React.useEffect(() => {
     const handleInputChange = () => {
       const inputValue = inputRef.current?.value;
-      if (inputValue && Number(inputValue) >= 0 && Number(inputValue) <= 100) {
+      if (inputValue && Number(inputValue) >= 0 && Number(inputValue) <= removeMaxCount) {
         setBlocked(false);
       } else {
         setBlocked(true);
@@ -25,36 +26,41 @@ const ModalBuy = () => {
     }
   }, [inputRef.current]);
 
-  function submit(id: string, symbol: string, name: string, priceUsd: string, count: string) {
+  function remove(id: string, maxCount: string, count: string) {
     setMyCoins((prevCoins: myCoin[]) => {
-      if (Number(count) != 0) {
-        return [...prevCoins, { id, symbol, name, priceUsd, count, portfolioId: prevCoins.length }];
-      } else {
-        return prevCoins;
-      }
+      return prevCoins
+        .map((coin) => {
+          if (coin.portfolioId === id) {
+            if (count != maxCount) {
+              if (Number(maxCount) - Number(count) >= 0) {
+                return { ...coin, count: Number(maxCount) - Number(count) };
+              } else {
+                return coin;
+              }
+            } else {
+              return null;
+            }
+          }
+          return coin;
+        })
+        .filter(Boolean);
     });
     setBlocked(true);
-    setIsModalBuy(false);
+    setIsModalRemove(false);
   }
   return (
     <div className={style.backside}>
       <div className={style.modal}>
-        <p onClick={() => setIsModalBuy(false)} className={style.close}>
+        <p onClick={() => setIsModalRemove(false)} className={style.close}>
           X
         </p>
-        <p className={style.coin}>{buyCoin.symbol}</p>
-        <p className={style.title}>Введите количество, которое желаете приобрести:</p>
+        <p className={style.coin}>{removeCoin.symbol}</p>
+        <p className={style.title}>Введите количество, которое желаете продать:</p>
         <div className={style.input}>
           <input ref={inputRef} className={style.count} min='0' max='100' type='number' />
           <p
             onClick={() =>
-              submit(
-                buyCoin.id,
-                buyCoin.symbol,
-                buyCoin.name,
-                buyCoin.priceUsd,
-                inputRef.current!.value,
-              )
+              remove(removeCoin.portfolioId, removeCoin.count, inputRef.current!.value)
             }
             style={blocked ? { visibility: "hidden" } : { visibility: "visible" }}
             className={style.accept}>
@@ -62,11 +68,11 @@ const ModalBuy = () => {
           </p>
         </div>
         <p className={style.coin}>
-          1{buyCoin.symbol} = {convert(buyCoin.priceUsd)}$
+          1{removeCoin.symbol} = {convert(removeCoin.priceUsd)}$
         </p>
       </div>
     </div>
   );
 };
 
-export default ModalBuy;
+export default ModalRemove;

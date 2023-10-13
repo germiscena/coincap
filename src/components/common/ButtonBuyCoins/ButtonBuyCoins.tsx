@@ -1,5 +1,6 @@
 import React from "react";
 import AppContext from "../../../context";
+import styles from "./ButtonBuyCoins.module.scss";
 
 const ButtonBuyCoins = ({ params }: any) => {
   const { setIsModalBuy, setbuyCoin }: any = React.useContext(AppContext);
@@ -9,11 +10,7 @@ const ButtonBuyCoins = ({ params }: any) => {
   }
   return (
     <p
-      style={{
-        margin: "0",
-        cursor: "pointer",
-        marginTop: "-3px",
-      }}
+      className={styles.buy}
       onClick={() => addCoin(params.id, params.symbol, params.name, params.priceUsd)}>
       +
     </p>

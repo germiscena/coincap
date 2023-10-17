@@ -1,0 +1,25 @@
+.coinInfo {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  border: 1px solid white;
+  .column {
+    border-right: 1px solid white;
+    height: 100%;
+    text-align: center;
+    align-items: center;
+    width: 18%;
+  }
+  .lastColumn {
+    width: 18%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 1vmin 0;
+  }
+  p {
+    margin: 0;
+    text-align: center;
+  }
+}

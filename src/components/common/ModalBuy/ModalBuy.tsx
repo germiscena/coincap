@@ -1,8 +1,7 @@
 import React, { RefObject } from "react";
 import style from "./ModalBuy.module.scss";
 import AppContext from "../../../context";
-import { convert } from "../../../env";
-import { myCoin } from "../../../types/types";
+import { convert, closeModal, submit } from "../../../env";
 
 const ModalBuy = () => {
   const inputRef: RefObject<HTMLInputElement> = React.useRef(null);
@@ -25,23 +24,9 @@ const ModalBuy = () => {
     }
   }, [inputRef.current]);
 
-  function submit(id: string, symbol: string, name: string, priceUsd: string, count: string) {
-    setMyCoins((prevCoins: myCoin[]) => {
-      if (Number(count) != 0) {
-        return [...prevCoins, { id, symbol, name, priceUsd, count, portfolioId: prevCoins.length }];
-      } else {
-        return prevCoins;
-      }
-    });
-    setBlocked(true);
-    setIsModalBuy(false);
-  }
   return (
-    <div className={style.backside}>
+    <div onClick={(e) => closeModal(e, setIsModalBuy)} className={style.backside}>
       <div className={style.modal}>
-        <p onClick={() => setIsModalBuy(false)} className={style.close}>
-          X
-        </p>
         <p className={style.coin}>{buyCoin.symbol}</p>
         <p className={style.title}>Введите количество, которое желаете приобрести:</p>
         <div className={style.input}>
@@ -54,6 +39,9 @@ const ModalBuy = () => {
                 buyCoin.name,
                 buyCoin.priceUsd,
                 inputRef.current!.value,
+                setMyCoins,
+                setBlocked,
+                setIsModalBuy,
               )
             }
             style={blocked ? { visibility: "hidden" } : { visibility: "visible" }}

@@ -1,7 +1,12 @@
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import React from "react";
 
 const Graph = ({ info }: any) => {
+  const [loading, setLoading] = React.useState<boolean>(false);
+  React.useEffect(() => {
+    info.length > 0 ? setLoading(false) : setLoading(true);
+  }, [info]);
   Chart.register(...registerables);
   const options = {
     scales: {
@@ -24,7 +29,9 @@ const Graph = ({ info }: any) => {
       },
     ],
   };
-  return <Line data={data} options={options} />;
+  return (
+    <>{loading ? <h1>"Подождите, идет загрузка!"</h1> : <Line data={data} options={options} />}</>
+  );
 };
 
 export default Graph;

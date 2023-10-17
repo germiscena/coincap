@@ -3,11 +3,11 @@ import styles from "./Item.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getGraphApi } from "../../../getApi";
 import Graph from "../../common/Graph/Graph";
-import { convert } from "../../../env";
-import ButtonBuyCoins from "../../common/ButtonBuyCoins/ButtonBuyCoins";
 import AppContext from "../../../context";
 import ModalBuy from "../../common/ModalBuy/ModalBuy";
 import { graphApi } from "../../../types/types";
+import BadProps from "../../common/BadProps/BadProps";
+import ItemInfo from "../../common/ItemInfo/ItemInfo";
 
 const Item = () => {
   const { isModalBuy }: any = React.useContext(AppContext);
@@ -30,11 +30,11 @@ const Item = () => {
       );
     }
   }, [location.state, graphPeriod]);
-
+  console.log(location.state);
   return (
     <div>
       {loading && location.state == null ? (
-        <h1>Пожалуйста подождите!</h1>
+        <BadProps text={"Пожалуйста, подождите!"} />
       ) : (
         <>
           <h2 className={styles.title}>{location.state.name}</h2>
@@ -53,30 +53,8 @@ const Item = () => {
                 </button>
               </div>
             </div>
-            <div className={styles.information}>
-              <p className={styles.paragraphs}>Позиция в топе: {location.state.rank}</p>
-              <p className={styles.paragraphs}>Символ: {location.state.symbol}</p>
-              <p className={styles.paragraphs}>Полное название: {location.state.name}</p>
-              <p className={styles.paragraphs}>
-                Доступно к торговле: {convert(location.state.supply)}
-              </p>
-              <p className={styles.paragraphs}>
-                Стоимость торгов: {convert(location.state.marketCapUsd)}
-              </p>
-              <p className={styles.paragraphs}>
-                Объем торгов за последние 24 часа: {convert(location.state.volumeUsd24Hr)}
-              </p>
-              <p className={styles.paragraphs}>Цена в USD: {convert(location.state.priceUsd)}</p>
-              <p className={styles.paragraphs}>
-                Изменения за последние 24 часа: {convert(location.state.changePercent24Hr)}
-              </p>
-              <p className={styles.paragraphs}>
-                Цена торгов за последние 24 часа: {convert(location.state.vwap24Hr)}
-              </p>
-              <div className={styles.buyButton}>
-                <p>Купить монету</p>
-                <ButtonBuyCoins params={location.state} />
-              </div>
+            <div>
+              <ItemInfo state={location.state} />
             </div>
           </div>
           {isModalBuy && <ModalBuy />}

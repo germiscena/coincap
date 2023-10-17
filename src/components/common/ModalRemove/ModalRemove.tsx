@@ -1,12 +1,12 @@
 import React, { RefObject } from "react";
 import style from "./ModalRemove.module.scss";
 import AppContext from "../../../context";
-import { convert } from "../../../env";
+import { convert, closeModal } from "../../../env";
 import { myCoin } from "../../../types/types";
 
 const ModalRemove = () => {
   const inputRef: RefObject<HTMLInputElement> = React.useRef(null);
-  const { setMyCoins, setIsModalRemove, removeCoin, removeMaxCount, myCoins }: any =
+  const { setMyCoins, setIsModalRemove, removeCoin, removeMaxCount }: any =
     React.useContext(AppContext);
   const [blocked, setBlocked] = React.useState(true);
   React.useEffect(() => {
@@ -49,11 +49,8 @@ const ModalRemove = () => {
     setIsModalRemove(false);
   }
   return (
-    <div className={style.backside}>
+    <div onClick={(e) => closeModal(e, setIsModalRemove)} className={style.backside}>
       <div className={style.modal}>
-        <p onClick={() => setIsModalRemove(false)} className={style.close}>
-          X
-        </p>
         <p className={style.coin}>{removeCoin.symbol}</p>
         <p className={style.title}>Введите количество, которое желаете продать:</p>
         <div className={style.input}>

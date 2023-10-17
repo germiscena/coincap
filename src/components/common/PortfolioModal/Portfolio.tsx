@@ -2,21 +2,20 @@ import React from "react";
 import styles from "./Portfolio.module.scss";
 import AppContext from "../../../context";
 import { myCoin } from "../../../types/types";
-import { convert } from "../../../env";
-import ButtonBuyCoins from "../ButtonBuyCoins/ButtonBuyCoins";
+import { closeModal } from "../../../env";
 import ModalBuy from "../ModalBuy/ModalBuy";
-import ButtonRemoveCoins from "../ButtonRemoveCoins/ButtonRemoveCoins";
 import ModalRemove from "../ModalRemove/ModalRemove";
+import PortfolioItem from "../PortfolioItem/PortfolioItem";
 
 const Portfolio = () => {
-  const { myCoins, setIsModalPortfolio, isModalBuy, singleCurrentCoinCost, isModalRemove }: any =
+  const { myCoins, setIsModalPortfolio, isModalBuy, isModalRemove }: any =
     React.useContext(AppContext);
+
   return (
-    <div className={styles.portfolio}>
+    <div onClick={(e) => closeModal(e, setIsModalPortfolio)} className={styles.portfolio}>
       <div className={styles.modal}>
         <div className={styles.head}>
           <h3>Моё портфолио</h3>
-          <button onClick={() => setIsModalPortfolio(false)}>X</button>
         </div>
         <div className={styles.coins}>
           <div className={styles.coinInfo}>
@@ -28,21 +27,7 @@ const Portfolio = () => {
             <p className={styles.column}>Купить\продать</p>
           </div>
           {myCoins.map((item: myCoin, id: number) => {
-            return (
-              <div key={id} className={styles.coinInfo}>
-                <p className={styles.column}>{item.name}</p>
-                <p className={styles.column}>{item.count}</p>
-                <p className={styles.column}>{convert(item.priceUsd)}</p>
-                <p className={styles.column}>{convert(singleCurrentCoinCost[id])}</p>
-                <p className={styles.column}>
-                  {convert(String(Number(item.count) * Number(item.priceUsd)))}
-                </p>
-                <div className={styles.lastColumn}>
-                  <ButtonBuyCoins params={item} />
-                  <ButtonRemoveCoins params={item} />
-                </div>
-              </div>
-            );
+            return <PortfolioItem item={item} key={id} id={id} />;
           })}
         </div>
       </div>

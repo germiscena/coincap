@@ -20,8 +20,7 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: space-between;
-      margin: 0 20%;
+      justify-content: center;
       h3 {
         margin: 0;
       }
@@ -47,7 +46,6 @@
       height: 80%;
       overflow-y: auto;
       overflow-x: hidden;
-
       .coinInfo {
         display: flex;
         flex-direction: row;

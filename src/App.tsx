@@ -18,9 +18,11 @@ function App() {
   const [removeMaxCount, setRemoveMaxCount] = React.useState<number>();
   const [coins, setCoins] = React.useState<coinApis[]>([]);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [pageCount, setPageCount] = React.useState<number>(1);
   const [topCoins, setTopCoins] = React.useState<coinApis[]>();
   const [myCoins, setMyCoins] = React.useState<myCoin[]>([]);
   const [search, setSearch] = React.useState<string>("");
+  const [falseSearch, setFalseSearch] = React.useState<boolean>(false);
   const [isModalPortfolio, setIsModalPortfolio] = React.useState<boolean>(false);
   const [walletCost, setWalletCost] = React.useState<number>(0);
   const [currentCost, setCurrentCost] = React.useState<number>(0);
@@ -28,27 +30,29 @@ function App() {
   const [updateCoins, setUpdateCoins] = React.useState<boolean>(true);
   const [difference, setDifference] = React.useState<string>("+0,00 (0,00 %)");
   const storageCoins: string | null = localStorage.getItem("coins");
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (search != "") {
       getSearchApi(currentPage, search).then((res) => {
         if (res == null) {
-          navigate("/error");
-          setSearch("");
+          setFalseSearch(true);
         } else {
+          setPageCount(Math.ceil(res.length / 10));
           setCoins(res);
+          setFalseSearch(false);
         }
       });
     } else if (search == "") {
       if (topCoins) {
         getApi(currentPage).then((res) => {
           setCoins(res.mainApi);
+          setPageCount(10);
         });
       } else {
         getApi(currentPage).then((res) => {
           setCoins(res.mainApi);
           setTopCoins(res.topApi);
+          setPageCount(10);
         });
       }
     }
@@ -129,6 +133,9 @@ function App() {
         setIsModalRemove,
         removeMaxCount,
         setRemoveMaxCount,
+        pageCount,
+        setPageCount,
+        falseSearch,
       }}>
       <div className={styles.app}>
         <Header />

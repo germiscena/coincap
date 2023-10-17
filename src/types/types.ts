@@ -33,3 +33,17 @@ export type graphApi = {
   priceUsd: string;
   time: number;
 };
+
+export type buyCoin = {
+  id: string;
+  symbol: string;
+  name: string;
+  priceUsd: string;
+};
+export type SetMyCoins = (func: (prevCoins: myCoin[]) => myCoin[]) => void;
+export type SetBlocked = (func: (prevBlocked: boolean) => boolean) => void;
+export type SetIsModalBuy = (func: (prevIsModalBuy: boolean) => boolean) => void;
+export type SetRemoveCoin = (func: (prevCoins: myCoin) => myCoin) => void;
+export type setIsModalRemove = (func: (prevIsModalRemove: boolean) => boolean) => void;
+export type setRemoveMaxCount = (func: (prevMaxCount: number) => number) => void;
+export type SetBuyCoin = (func: (prevCoin: buyCoin) => buyCoin) => void;

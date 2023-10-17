@@ -1,21 +1,11 @@
 import React from "react";
 import styles from "./ButtonRemoveCoins.module.scss";
 import AppContext from "../../../context";
+import { remove } from "../../../env";
 
 const ButtonRemoveCoins = ({ params }: any) => {
   const { setIsModalRemove, setRemoveCoin, setRemoveMaxCount }: any = React.useContext(AppContext);
-  function remove(
-    id: string,
-    symbol: string,
-    name: string,
-    priceUsd: string,
-    count: string,
-    portfolioId: string,
-  ) {
-    setRemoveCoin({ id, symbol, name, priceUsd, count, portfolioId });
-    setIsModalRemove(true);
-    setRemoveMaxCount(Number(count));
-  }
+
   return (
     <p
       className={styles.remove}
@@ -27,6 +17,9 @@ const ButtonRemoveCoins = ({ params }: any) => {
           params.priceUsd,
           params.count,
           params.portfolioId,
+          setRemoveCoin,
+          setIsModalRemove,
+          setRemoveMaxCount,
         )
       }>
       -

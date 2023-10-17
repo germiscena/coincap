@@ -10,12 +10,22 @@ const PortfolioItem = ({ item, id }: { item: myCoin; id: number }) => {
   const { singleCurrentCoinCost }: any = React.useContext(AppContext);
   return (
     <div key={id} className={styles.coinInfo}>
-      <p className={styles.column}>{item.name}</p>
-      <p className={styles.column}>{item.count}</p>
-      <p className={styles.column}>{convert(item.priceUsd)}</p>
-      <p className={styles.column}>{convert(singleCurrentCoinCost[id])}</p>
-      <p className={styles.column}>{convert(String(Number(item.count) * Number(item.priceUsd)))}</p>
-      <div className={styles.lastColumn}>
+      <p style={{ width: "20%" }} className={styles.column}>
+        {item.name}
+      </p>
+      <p style={{ width: "10%" }} className={styles.column}>
+        {item.count}
+      </p>
+      <p style={{ width: "20%" }} className={styles.column}>
+        {convert(item.priceUsd)}
+      </p>
+      <p style={{ width: "20%" }} className={styles.column}>
+        {convert(singleCurrentCoinCost[id])}
+      </p>
+      <p style={{ width: "20%" }} className={styles.column}>
+        {convert(String(Number(item.count) * Number(item.priceUsd)))}
+      </p>
+      <div style={{ width: "10%" }} className={styles.lastColumn}>
         <ButtonBuyCoins params={item} />
         <ButtonRemoveCoins params={item} />
       </div>

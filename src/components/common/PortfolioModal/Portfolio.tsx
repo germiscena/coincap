@@ -19,12 +19,24 @@ const Portfolio = () => {
         </div>
         <div className={styles.coins}>
           <div className={styles.coinInfo}>
-            <p className={styles.column}>Название</p>
-            <p className={styles.column}>Количество</p>
-            <p className={styles.column}>Цена покупки</p>
-            <p className={styles.column}>Нынешняя цена</p>
-            <p className={styles.column}>Итоговая цена покупки</p>
-            <p className={styles.column}>Купить\продать</p>
+            <p style={{ width: "20%" }} className={styles.column}>
+              Название
+            </p>
+            <p style={{ width: "10%" }} className={styles.column}>
+              Количество
+            </p>
+            <p style={{ width: "20%" }} className={styles.column}>
+              Цена покупки
+            </p>
+            <p style={{ width: "20%" }} className={styles.column}>
+              Нынешняя цена
+            </p>
+            <p style={{ width: "20%" }} className={styles.column}>
+              Итоговая цена покупки
+            </p>
+            <p style={{ width: "10%" }} className={styles.column}>
+              Купить\продать
+            </p>
           </div>
           {myCoins.map((item: myCoin, id: number) => {
             return <PortfolioItem item={item} key={id} id={id} />;

@@ -24,6 +24,15 @@
       padding: 5px;
       margin-top: 10px;
       cursor: pointer;
+      margin-bottom: 10px;
+    }
+  }
+}
+@media (max-width: 700px) {
+  .box {
+    flex-direction: column;
+    .graph {
+      width: 70%;
     }
   }
 }

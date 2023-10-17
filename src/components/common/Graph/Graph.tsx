@@ -30,7 +30,7 @@ const Graph = ({ info }: any) => {
     ],
   };
   return (
-    <>{loading ? <h1>"Подождите, идет загрузка!"</h1> : <Line data={data} options={options} />}</>
+    <>{loading ? <h3>"Подождите, идет загрузка!"</h3> : <Line data={data} options={options} />}</>
   );
 };
 

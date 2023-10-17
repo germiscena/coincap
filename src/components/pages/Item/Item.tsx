@@ -30,7 +30,6 @@ const Item = () => {
       );
     }
   }, [location.state, graphPeriod]);
-  console.log(location.state);
   return (
     <div>
       {loading && location.state == null ? (

@@ -20,46 +20,57 @@ const Main = () => {
               <tr>
                 <th
                   style={{
-                    width: "10vw",
                     borderRight: "2px solid black",
                     borderBottom: "2px solid black",
+                    fontSize: "calc(10px + 0.5vw)",
+                    width: "10%",
                   }}>
                   №
                 </th>
                 <th
                   style={{
-                    width: "15vw",
                     borderRight: "2px solid black",
                     borderBottom: "2px solid black",
+                    fontSize: "calc(10px + 0.5vw)",
+                    width: "10%",
                   }}>
                   Символ
                 </th>
                 <th
                   style={{
-                    width: "25vw",
                     borderRight: "2px solid black",
                     borderBottom: "2px solid black",
+                    fontSize: "calc(10px + 0.5vw)",
+                    width: "10%",
                   }}>
                   Название
                 </th>
                 <th
                   style={{
-                    width: "25vw",
                     borderRight: "2px solid black",
                     borderBottom: "2px solid black",
+                    fontSize: "calc(10px + 0.5vw)",
+                    width: "10%",
                   }}>
                   Стоимость(USD)
                 </th>
                 <th
                   style={{
-                    width: "15vw",
-
                     borderBottom: "2px solid black",
                     borderRight: "2px solid black",
+                    fontSize: "calc(10px + 0.5vw)",
+                    width: "10%",
                   }}>
                   Суточный оборот(USD)
                 </th>
-                <th style={{ width: "10vw", borderBottom: "2px solid black" }}>Купить</th>
+                <th
+                  style={{
+                    borderBottom: "2px solid black",
+                    fontSize: "calc(10px + 0.5vw)",
+                    width: "10%",
+                  }}>
+                  Купить
+                </th>
               </tr>
             </thead>
             <tbody>

@@ -15,7 +15,6 @@ const TableItem = ({ item }: { item: coinApis }) => {
         style={{
           fontSize: "calc(10px + 0.5vw)",
           borderRight: "2px solid black",
-          width: "10vw",
         }}>
         {item.rank}
       </th>
@@ -24,7 +23,6 @@ const TableItem = ({ item }: { item: coinApis }) => {
         style={{
           fontSize: "calc(10px + 0.5vw)",
           borderRight: "2px solid black",
-          width: "15vw",
         }}>
         {item.symbol}
       </th>
@@ -33,7 +31,6 @@ const TableItem = ({ item }: { item: coinApis }) => {
         style={{
           fontSize: "calc(10px + 0.5vw)",
           borderRight: "2px solid black",
-          width: "25vw",
         }}>
         {item.name}
       </th>
@@ -42,7 +39,6 @@ const TableItem = ({ item }: { item: coinApis }) => {
         style={{
           fontSize: "calc(10px + 0.5vw)",
           borderRight: "2px solid black",
-          width: "25vw",
         }}>
         {priceUsd}
       </th>
@@ -51,14 +47,12 @@ const TableItem = ({ item }: { item: coinApis }) => {
         style={{
           fontSize: "calc(10px + 0.5vw)",
           borderRight: "2px solid black",
-          width: "15vw",
         }}>
         {volumeUsd}
       </th>
       <th
         style={{
           fontSize: "calc(10px + 0.5vw)",
-          width: "10%",
         }}>
         <ButtonBuyCoins params={item} />
       </th>

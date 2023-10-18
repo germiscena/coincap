@@ -32,17 +32,19 @@ function App() {
   const storageCoins: string | null = localStorage.getItem("coins");
 
   React.useEffect(() => {
-    if (search != "") {
-      getSearchApi(currentPage, search).then((res) => {
+    let trimmedSearch = search.trim();
+    if (trimmedSearch !== "") {
+      getSearchApi(currentPage, trimmedSearch).then((res) => {
         if (res == null) {
           setFalseSearch(true);
         } else {
-          setPageCount(Math.ceil(res.length / 10));
-          setCoins(res);
+          setPageCount(Math.ceil(res.len / 10));
+          setCoins(res.data);
           setFalseSearch(false);
         }
       });
-    } else if (search == "") {
+    } else {
+      setFalseSearch(false);
       if (topCoins) {
         getApi(currentPage).then((res) => {
           setCoins(res.mainApi);
@@ -56,7 +58,7 @@ function App() {
         });
       }
     }
-  }, [currentPage, search]);
+  }, [currentPage, search, topCoins]);
 
   React.useEffect(() => {
     function getDifference() {

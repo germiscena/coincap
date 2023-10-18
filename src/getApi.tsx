@@ -13,14 +13,19 @@ export async function getApi(currentPage: number) {
 }
 
 export async function getSearchApi(currentPage: number, search: string) {
-  const mainLink: string = `${API_URL}${
-    search == "" ? "?" : `?search=${search}&`
-  }limit=10&page=${currentPage}&offset=${10 * (-1 + currentPage)}`;
+  const mainLink: string = `${API_URL}?search=${search}`;
   const mainApi: coinApis[] = await axios.get(mainLink).then((res) => res.data.data);
+  function getItemsForPage(array: coinApis[], pageNumber: number, itemsPerPage: number) {
+    const startIndex = (pageNumber - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return array.slice(startIndex, endIndex);
+  }
+  const data: coinApis[] = getItemsForPage(mainApi, currentPage, 10);
+  const len: number = mainApi.length;
   if (mainApi.length == 0) {
     return null;
   } else {
-    return mainApi;
+    return { data, len };
   }
 }
 

@@ -10,11 +10,13 @@ const Pagination = () => {
     <ReactPaginate
       className={styles.root}
       breakLabel='...'
-      nextLabel='>'
+      nextLabel={<span style={{ visibility: "hidden" }}>Previous</span>}
       onPageChange={(event) => setCurrentPage(event.selected + 1)}
       pageCount={pageCount}
-      previousLabel='<'
+      previousLabel={<span style={{ visibility: "hidden" }}>Previous</span>}
       renderOnZeroPageCount={null}
+      previousLinkClassName={styles.previous}
+      nextClassName={styles.next}
     />
   );
 };

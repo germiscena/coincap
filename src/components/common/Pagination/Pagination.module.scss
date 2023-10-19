@@ -1,5 +1,12 @@
 .root {
   width: 100vw;
+  .previous {
+    display: none;
+  }
+  .next {
+    display: none;
+  }
+
   li {
     display: inline-block;
     a {

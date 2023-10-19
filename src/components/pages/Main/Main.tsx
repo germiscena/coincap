@@ -8,7 +8,7 @@ import TableItem from "../../common/TableItem/TableItem";
 import BadProps from "../../common/BadProps/BadProps";
 
 const Main = () => {
-  const { coins, isModalBuy, falseSearch }: any = React.useContext(AppContext);
+  const { coins, isModalBuy, falseSearch, setSort, sort }: any = React.useContext(AppContext);
   return (
     <>
       {falseSearch ? (
@@ -19,11 +19,13 @@ const Main = () => {
             <thead>
               <tr>
                 <th
+                  onClick={() => (sort == "rank" ? setSort("rankAsc") : setSort("rank"))}
                   style={{
                     borderRight: "2px solid black",
                     borderBottom: "2px solid black",
                     fontSize: "calc(10px + 0.5vw)",
                     width: "10%",
+                    cursor: "pointer",
                   }}>
                   №
                 </th>
@@ -37,29 +39,37 @@ const Main = () => {
                   Символ
                 </th>
                 <th
+                  onClick={() => (sort == "name" ? setSort("nameAsc") : setSort("name"))}
                   style={{
                     borderRight: "2px solid black",
                     borderBottom: "2px solid black",
                     fontSize: "calc(10px + 0.5vw)",
                     width: "10%",
+                    cursor: "pointer",
                   }}>
                   Название
                 </th>
                 <th
+                  onClick={() => (sort == "price" ? setSort("priceAsc") : setSort("price"))}
                   style={{
                     borderRight: "2px solid black",
                     borderBottom: "2px solid black",
                     fontSize: "calc(10px + 0.5vw)",
                     width: "10%",
+                    cursor: "pointer",
                   }}>
                   Стоимость(USD)
                 </th>
                 <th
+                  onClick={() =>
+                    sort == "dayValue" ? setSort("dayValueAsc") : setSort("dayValue")
+                  }
                   style={{
                     borderBottom: "2px solid black",
                     borderRight: "2px solid black",
                     fontSize: "calc(10px + 0.5vw)",
                     width: "10%",
+                    cursor: "pointer",
                   }}>
                   Суточный оборот(USD)
                 </th>

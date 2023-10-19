@@ -47,3 +47,4 @@ export type SetRemoveCoin = (func: (prevCoins: myCoin) => myCoin) => void;
 export type setIsModalRemove = (func: (prevIsModalRemove: boolean) => boolean) => void;
 export type setRemoveMaxCount = (func: (prevMaxCount: number) => number) => void;
 export type SetBuyCoin = (func: (prevCoin: buyCoin) => buyCoin) => void;
+export type setCoins = (func: (prevCoins: coinApis[]) => coinApis[]) => void;

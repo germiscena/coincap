@@ -8,7 +8,7 @@ import AppContext from "./context";
 import { getApi, getDiffApi, getSearchApi } from "./getApi";
 import Error from "./components/pages/Error";
 import { coinApis, myCoin, walletCoins } from "./types/types";
-import { convert } from "./env";
+import { convert, sorting } from "./env";
 
 function App() {
   const [isModalBuy, setIsModalBuy] = React.useState<boolean>(false);
@@ -16,7 +16,7 @@ function App() {
   const [buyCoin, setbuyCoin] = React.useState<myCoin>();
   const [removeCoin, setRemoveCoin] = React.useState<myCoin>();
   const [removeMaxCount, setRemoveMaxCount] = React.useState<number>();
-  const [coins, setCoins] = React.useState<coinApis[]>([]);
+  const [coins, setCoins] = React.useState<any>([]);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [pageCount, setPageCount] = React.useState<number>(1);
   const [topCoins, setTopCoins] = React.useState<coinApis[]>();
@@ -29,8 +29,8 @@ function App() {
   const [singleCurrentCoinCost, setSingleCurrentCoinCost] = React.useState<string[]>([]);
   const [updateCoins, setUpdateCoins] = React.useState<boolean>(true);
   const [difference, setDifference] = React.useState<string>("+0,00 (0,00 %)");
+  const [sort, setSort] = React.useState<string>("rank");
   const storageCoins: string | null = localStorage.getItem("coins");
-
   React.useEffect(() => {
     let trimmedSearch = search.trim();
     if (trimmedSearch !== "") {
@@ -38,27 +38,30 @@ function App() {
         if (res == null) {
           setFalseSearch(true);
         } else {
-          setPageCount(Math.ceil(res.len / 10));
-          setCoins(res.data);
-          setFalseSearch(false);
+          if (res.data) {
+            setPageCount(Math.ceil(res.len / 10));
+            setCoins(res.data);
+            setFalseSearch(false);
+          }
         }
       });
     } else {
       setFalseSearch(false);
       if (topCoins) {
-        getApi(currentPage).then((res) => {
+        getApi(currentPage, sort).then((res) => {
           setCoins(res.mainApi);
           setPageCount(10);
         });
       } else {
-        getApi(currentPage).then((res) => {
+        getApi(currentPage, sort).then((res) => {
           setCoins(res.mainApi);
           setTopCoins(res.topApi);
           setPageCount(10);
         });
       }
     }
-  }, [currentPage, search, topCoins]);
+    sorting(sort, setCoins, coins);
+  }, [currentPage, search, topCoins, sort]);
 
   React.useEffect(() => {
     function getDifference() {
@@ -138,6 +141,8 @@ function App() {
         pageCount,
         setPageCount,
         falseSearch,
+        sort,
+        setSort,
       }}>
       <div className={styles.app}>
         <Header />
